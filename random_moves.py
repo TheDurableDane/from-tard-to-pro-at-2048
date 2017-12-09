@@ -3,7 +3,7 @@ import pyautogui as pag
 import random
 import time
 
-
+# test upload
 webbrowser.open('https://gabrielecirulli.github.io/2048/', new=1)
 time.sleep(5)
 
