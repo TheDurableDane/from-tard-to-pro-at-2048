@@ -7,7 +7,10 @@ import time
 webbrowser.open('https://gabrielecirulli.github.io/2048/', new=1)
 time.sleep(5)
 
+pag.scroll(-400)    # center active area on screen
+
 moves = ['left', 'right', 'up', 'down']
+
 for i in range(100):
     move = moves[random.randint(0, 3)]
     pag.press(move)
