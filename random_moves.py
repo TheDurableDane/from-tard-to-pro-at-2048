@@ -7,7 +7,11 @@ import time
 webbrowser.open('https://gabrielecirulli.github.io/2048/', new=1)
 time.sleep(5)
 
-pag.scroll(-400)    # center active area on screen
+width, height = pag.size()
+
+# center game area in browser by scrolling down 50 px
+pag.moveTo(width, int(height/2))
+pag.dragRel(0, 50)
 
 moves = ['left', 'right', 'up', 'down']
 
