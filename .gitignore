@@ -6,5 +6,6 @@
 *.pyc
 *.png
 *.pdf
+*.toc
 .vscode
 __pycache__
