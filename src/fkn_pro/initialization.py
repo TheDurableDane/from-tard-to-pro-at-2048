@@ -27,6 +27,14 @@ def center_game_on_screen():
     pag.dragRel(0, 120)
 
 
+def restart_game(x_new_game, y_new_game):
+    """
+    Move the cursor to the "New Game" button and click it.
+    """
+    pag.moveTo(x_new_game, y_new_game)
+    pag.click()
+
+
 def initialize_game(url='https://gabrielecirulli.github.io/2048/'):
     """
     This is the main function of this file.
