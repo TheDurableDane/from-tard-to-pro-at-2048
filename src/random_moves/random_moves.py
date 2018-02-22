@@ -20,3 +20,7 @@ for i in range(100):
     pag.press(move)
     print(move)
     time.sleep(0.1)
+
+button_location = pag.locateOnScreen('../fkn_pro/data/new_game_button.png')
+x_button, y_button = pag.center(button_location)
+pag.click(x_button, y_button)
