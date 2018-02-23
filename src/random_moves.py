@@ -1,4 +1,4 @@
-import webbrowser
+import initialization as init
 import pyautogui as pag
 import random
 import time
@@ -8,15 +8,8 @@ import os.path
 here = os.path.dirname(os.path.realpath(__file__))
 abs_path = lambda fname: os.path.join(here, fname)
 
-# test upload
-webbrowser.open('https://gabrielecirulli.github.io/2048/', new=1)
-time.sleep(5)
-
-width, height = pag.size()
-
-# center game area in browser by scrolling down 50 px
-pag.moveTo(width, int(height/2))
-pag.dragRel(0, 50)
+# Start the game
+init.initialize_game()
 
 moves = ['left', 'right', 'up', 'down']
 
