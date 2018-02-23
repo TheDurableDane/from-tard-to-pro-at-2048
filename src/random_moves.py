@@ -3,10 +3,6 @@ import pyautogui as pag
 import random
 import time
 
-# fix for linking to relative paths
-import os.path
-here = os.path.dirname(os.path.realpath(__file__))
-abs_path = lambda fname: os.path.join(here, fname)
 
 # Start the game
 init.initialize_game()
