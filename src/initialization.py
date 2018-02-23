@@ -41,7 +41,6 @@ def restart_game(ng_button=None):
     """
     if ng_button is None:
         ng_button = config.NEW_GAME_BUTTON
-        print(ng_button)
     button_location = pag.locateOnScreen(ng_button)
     x_button, y_button = pag.center(button_location)
     pag.click(x_button, y_button)

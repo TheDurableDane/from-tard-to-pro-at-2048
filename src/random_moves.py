@@ -2,7 +2,6 @@ import initialization as init
 import pyautogui as pag
 import random
 import time
-import config
 
 
 # Start the game
