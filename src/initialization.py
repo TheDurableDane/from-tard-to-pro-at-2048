@@ -43,6 +43,7 @@ def initialize_game(url='https://gabrielecirulli.github.io/2048/'):
     start_webbrowser(url)
     time.sleep(2)
     center_game_on_screen()
+    restart_game()
 
 
 if __name__ == '__main__':
