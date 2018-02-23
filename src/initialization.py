@@ -7,7 +7,7 @@ import argparse
 
 def start_webbrowser(url):
     """
-    Open website in new browser window
+    Open website in new browser window.
     """
     webbrowser.open(url, new=1)
 
