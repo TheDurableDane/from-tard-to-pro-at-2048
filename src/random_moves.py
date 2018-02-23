@@ -11,14 +11,13 @@ abs_path = lambda fname: os.path.join(here, fname)
 # Start the game
 init.initialize_game()
 
+# Play da damn game
 moves = ['left', 'right', 'up', 'down']
+n_games = 2     # number of games to play
+for game in range(n_games):
+    for i in range(100):
+        move = moves[random.randint(0, 3)]
+        pag.press(move)
+        time.sleep(0.1)
 
-for i in range(100):
-    move = moves[random.randint(0, 3)]
-    pag.press(move)
-    print(move)
-    time.sleep(0.1)
-
-button_location = pag.locateOnScreen(abs_path('../fkn_pro/data/new_game_button.png'))
-x_button, y_button = pag.center(button_location)
-pag.click(x_button, y_button)
+    init.restart_game()
