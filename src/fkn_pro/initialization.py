@@ -27,12 +27,13 @@ def center_game_on_screen():
     pag.dragRel(0, 120)
 
 
-def restart_game(x_new_game, y_new_game):
+def restart_game():
     """
     Move the cursor to the "New Game" button and click it.
     """
-    pag.moveTo(x_new_game, y_new_game)
-    pag.click()
+    button_location = pag.locateOnScreen('data/new_game_button.png')
+    x_button, y_button = pag.center(button_location)
+    pag.click(x_button, y_button)
 
 
 def initialize_game(url='https://gabrielecirulli.github.io/2048/'):
