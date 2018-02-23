@@ -5,9 +5,7 @@ import time
 import argparse
 import os.path
 import glob
-
-
-NEW_GAME_BUTTON = None
+import config
 
 # os-independent (not tested on Mac) hack for linking to relative paths.
 # underscore makes them private, i.e. not imported via *
@@ -37,10 +35,13 @@ def center_game_on_screen():
     # pag.dragRel(0, 120)
 
 
-def restart_game(ng_button=_abs_path("data/new_game_button.png")):
+def restart_game(ng_button=None):
     """
     Move the cursor to the "New Game" button and click it.
     """
+    if ng_button is None:
+        ng_button = config.NEW_GAME_BUTTON
+        print(ng_button)
     button_location = pag.locateOnScreen(ng_button)
     x_button, y_button = pag.center(button_location)
     pag.click(x_button, y_button)
@@ -63,7 +64,9 @@ def initialize_game(url='https://gabrielecirulli.github.io/2048/'):
             continue
         else:
             success = True
-            NEW_GAME_BUTTON = ng_button
+            config.NEW_GAME_BUTTON = ng_button
+    if not success:
+        print("Failure, you bitch!")
 
 
 if __name__ == '__main__':
