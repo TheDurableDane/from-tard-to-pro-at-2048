@@ -1,9 +1,17 @@
 import pyautogui as pag
-from skimage.color import rgb2gray
-from skimage.io import imshow
 import numpy as np
-from bs4 import BeautifulSoup
-import urllib
+from skimage.color import rgb2gray
+from skimage.feature import match_template
+from skimage.io import imread
+import os.path
+import glob
+
+
+# os-independent (not tested on Mac, obviously) hack for linking to relative paths.
+# underscore makes them private, i.e. not imported via *
+_here = os.path.dirname(os.path.realpath(__file__))
+def _abs_path(f):
+    return os.path.join(_here, f)
 
 
 def take_screenshot():
@@ -15,6 +23,21 @@ def take_screenshot():
     img_gray = rgb2gray(img_orig)
 
     return img_gray
+
+
+def locate_image_on_screen(image_path):
+#    image_path = glob.glob(_abs_path(image_path))
+    template = imread(image_path, as_grey=True)
+    screen_gray = take_screenshot()
+    match_result = match_template(screen_gray, template)
+    location = np.where(match_result == np.amax(match_result))
+    row = location[0][0]
+    column = location[1][0]
+    height, width = template.shape
+    x_center = column + int(width/2)
+    y_center = row + int(height/2)
+
+    return [row, column, height, width, x_center, y_center]
 
 
 def detect_cells(screen):

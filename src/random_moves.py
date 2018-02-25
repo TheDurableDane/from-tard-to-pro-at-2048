@@ -5,15 +5,16 @@ import time
 
 
 # Start the game
-init.initialize_game()
+screen_content = init.initialize_game()
 
 # Play da damn game
 moves = ['left', 'right', 'up', 'down']
 n_games = 2     # number of games to play
 for game in range(n_games):
-    for i in range(10):
+    for i in range(20):
         move = moves[random.randint(0, 3)]
         pag.press(move)
         time.sleep(0.1)
 
-    init.restart_game()
+    init.restart_game(screen_content.loc['new game', 'x_center'],
+                      screen_content.loc['new game', 'y_center'])

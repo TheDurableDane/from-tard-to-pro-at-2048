@@ -1,16 +1,11 @@
 #!/usr/bin/env python3
+import pandas as pd
 import webbrowser
 import pyautogui as pag
 import time
 import argparse
-import os.path
-import glob
-import config
-
-# os-independent (not tested on Mac) hack for linking to relative paths.
-# underscore makes them private, i.e. not imported via *
-_here = os.path.dirname(os.path.realpath(__file__))
-def _abs_path(f): return os.path.join(_here, f)
+import sys
+import image_processing as img_proc
 
 
 def start_webbrowser(url):
@@ -35,15 +30,11 @@ def center_game_on_screen():
     # pag.dragRel(0, 120)
 
 
-def restart_game(ng_button=None):
+def restart_game(x_new_game_button, y_new_game_button):
     """
     Move the cursor to the "New Game" button and click it.
     """
-    if ng_button is None:
-        ng_button = config.NEW_GAME_BUTTON
-    button_location = pag.locateOnScreen(ng_button)
-    x_button, y_button = pag.center(button_location)
-    pag.click(x_button, y_button)
+    pag.click(x=x_new_game_button, y=y_new_game_button)
 
 
 def initialize_game(url='https://gabrielecirulli.github.io/2048/'):
@@ -52,20 +43,24 @@ def initialize_game(url='https://gabrielecirulli.github.io/2048/'):
     """
     start_webbrowser(url)
     time.sleep(2)
-    center_game_on_screen()
+    # center_game_on_screen()    # Needs improvement
 
-    # locate correct new game button
-    success = False
-    for ng_button in glob.glob(_abs_path("data/new_game_button*")):
-        try:
-            restart_game(ng_button)
-        except TypeError:
-            continue
-        else:
-            success = True
-            config.NEW_GAME_BUTTON = ng_button
-    if not success:
-        print("Failure, you bitch!")
+    # Locate screen content
+    screen_content = pd.DataFrame(data=[],
+                                  columns=['row', 'column', 'height', 'width', 'x_center', 'y_center'],
+                                  index=['board', 'new game', 'score', 'best'])
+    template_paths = ['data/game_board.png',
+                      'data/new_game_button.png',
+                      'data/score.png',
+                      'data/best.png']
+    for i, path in enumerate(template_paths):
+        screen_content.iloc[i, :] = img_proc.locate_image_on_screen(path)
+        pag.moveTo(screen_content.iloc[i, 4], screen_content.iloc[i, 5])
+
+    restart_game(screen_content.loc['new game', 'x_center'],
+                 screen_content.loc['new game', 'y_center'])
+
+    return screen_content
 
 
 if __name__ == '__main__':
@@ -77,4 +72,4 @@ if __name__ == '__main__':
                         help='The url of the 2048 game.')
     args = parser.parse_args()
 
-    initialize_game(args.url)
+    sys.exit(initialize_game(args.url))
