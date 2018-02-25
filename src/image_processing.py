@@ -7,8 +7,8 @@ import os.path
 import glob
 
 
-# os-independent (not tested on Mac, obviously) hack for linking to relative paths.
 # underscore makes them private, i.e. not imported via *
+# os-independent (not tested on Mac, obviously) hack for linking to relative paths.
 _here = os.path.dirname(os.path.realpath(__file__))
 def _abs_path(f):
     return os.path.join(_here, f)

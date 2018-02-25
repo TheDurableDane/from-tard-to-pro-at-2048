@@ -6,6 +6,13 @@ import time
 import argparse
 import sys
 import image_processing as img_proc
+import os
+
+# os-independent (not tested on Mac, obviously) hack for linking to relative paths.
+# underscore makes them private, i.e. not imported via *
+_here = os.path.dirname(os.path.realpath(__file__))
+def _abs_path(f):
+    return os.path.join(_here, f)
 
 
 def start_webbrowser(url):
@@ -49,10 +56,13 @@ def initialize_game(url='https://gabrielecirulli.github.io/2048/'):
     screen_content = pd.DataFrame(data=[],
                                   columns=['row', 'column', 'height', 'width', 'x_center', 'y_center'],
                                   index=['board', 'new game', 'score', 'best'])
-    template_paths = ['data/game_board.png',
-                      'data/new_game_button.png',
-                      'data/score.png',
-                      'data/best.png']
+    template_paths = ['data/game_board-2.png',
+                      'data/new_game_button-2.png',
+                      'data/score-2.png',
+                      'data/best-2.png']
+    # we should consider moving these paths into a utils file together
+    # with the _abs_path function...
+    template_paths = map(_abs_path, template_paths) # fix for the S Bag!
     for i, path in enumerate(template_paths):
         screen_content.iloc[i, :] = img_proc.locate_image_on_screen(path)
         pag.moveTo(screen_content.iloc[i, 4], screen_content.iloc[i, 5])
