@@ -37,6 +37,24 @@ def center_game_on_screen():
     # pag.dragRel(0, 120)
 
 
+def locate_screen_content():
+    screen_content = pd.DataFrame(data=[],
+                                  columns=['row', 'column', 'height', 'width', 'x_center', 'y_center'],
+                                  index=['board', 'new game', 'score', 'best'])
+    template_paths = ['data/game_board.png',
+                      'data/new_game_button.png',
+                      'data/score.png',
+                      'data/best.png']
+    # we should consider moving these paths into a utils file together
+    # with the _abs_path function...
+    template_paths = map(_abs_path, template_paths)  # fix for the S Bag!
+    for i, path in enumerate(template_paths):
+        screen_content.iloc[i, :] = img_proc.locate_image_on_screen(path)
+        pag.moveTo(screen_content.iloc[i, 4], screen_content.iloc[i, 5])
+
+    return screen_content
+
+
 def restart_game(x_new_game_button, y_new_game_button):
     """
     Move the cursor to the "New Game" button and click it.
@@ -51,21 +69,7 @@ def initialize_game(url='https://gabrielecirulli.github.io/2048/'):
     start_webbrowser(url)
     time.sleep(2)
     # center_game_on_screen()    # Needs improvement
-
-    # Locate screen content
-    screen_content = pd.DataFrame(data=[],
-                                  columns=['row', 'column', 'height', 'width', 'x_center', 'y_center'],
-                                  index=['board', 'new game', 'score', 'best'])
-    template_paths = ['data/game_board-2.png',
-                      'data/new_game_button-2.png',
-                      'data/score-2.png',
-                      'data/best-2.png']
-    # we should consider moving these paths into a utils file together
-    # with the _abs_path function...
-    template_paths = map(_abs_path, template_paths) # fix for the S Bag!
-    for i, path in enumerate(template_paths):
-        screen_content.iloc[i, :] = img_proc.locate_image_on_screen(path)
-        pag.moveTo(screen_content.iloc[i, 4], screen_content.iloc[i, 5])
+    screen_content = locate_screen_content()
 
     restart_game(screen_content.loc['new game', 'x_center'],
                  screen_content.loc['new game', 'y_center'])
