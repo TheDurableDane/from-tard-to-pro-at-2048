@@ -3,15 +3,6 @@ import numpy as np
 from skimage.color import rgb2gray
 from skimage.feature import match_template
 from skimage.io import imread
-import os.path
-import glob
-
-
-# underscore makes them private, i.e. not imported via *
-# os-independent (not tested on Mac, obviously) hack for linking to relative paths.
-_here = os.path.dirname(os.path.realpath(__file__))
-def _abs_path(f):
-    return os.path.join(_here, f)
 
 
 def take_screenshot():
@@ -26,10 +17,8 @@ def take_screenshot():
 
 
 def locate_image_on_screen(image_path):
-#    image_path = glob.glob(_abs_path(image_path))
     template = imread(image_path, as_grey=True)
     screen_gray = take_screenshot()
-    print(screen_gray.shape)
     match_result = match_template(screen_gray, template)
     location = np.where(match_result == np.amax(match_result))
     row = location[0][0]
@@ -81,6 +70,13 @@ def detect_cells(screen):
 
 
 def reCOCKnize_numbers():
+    pass
+
+
+def game_over():
+    """
+    Return True if game over. Return False otherwise.
+    """
     pass
 
 
