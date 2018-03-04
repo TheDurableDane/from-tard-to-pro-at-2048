@@ -1,0 +1,29 @@
+\section{Overall structure}
+\begin{figure}[htbp]
+	\centering
+	\begin{tikzpicture}
+		\tikzset{module/.style={draw,
+								rectangle,
+								rounded corners,
+								inner sep=8pt,
+								text width=width("Make random move"),
+								align=center},
+				 arrow/.style={->,
+							   >=stealth,
+							   rounded corners}}
+		% Nodes
+	    \node[module] (init) {Initialization};
+	    \node[module, below=of init] (move) {Make random move};
+	    \node[module, below=of move] (game_over) {Game over?};
+	    \node[module, below=of game_over] (save) {Save results};
+	    \node[module, below=of save] (restart) {Restart game};
+
+	    % Arrows
+	    \draw[arrow] (init) -- (move);
+		\draw[arrow] (move) -- (game_over);
+		\draw[arrow] (game_over) -- node[right]{\footnotesize Yes} (save);
+		\draw[arrow] (game_over.east) -| ++(8mm, 0) node[below]{\footnotesize No} |- (move.east);
+		\draw[arrow] (save) -- (restart);
+		\draw[arrow] (restart.west) -| ++(-8mm, 0) |- (move.west);
+	\end{tikzpicture}
+\end{figure}

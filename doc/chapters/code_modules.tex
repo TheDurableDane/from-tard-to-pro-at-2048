@@ -1,27 +1,5 @@
 \chapter{Code modules}
-\section{Initialization}
-\begin{figure}[htbp]
-	\centering
-	\begin{tikzpicture}
-	\tikzset{module/.style={draw,
-				rectangle,
-				rounded corners,
-				inner sep=8pt,
-				text width=width("Image Processing"),
-				align=center},
-			arrow/.style={->,
-				>=stealth}}
-	% Nodes
-	\node[module] (open) {Open website};
-	\node[module, below=of open] (center) {Center game on screen};
 
-	% Arrows
-	\draw[arrow] (open) -- (center);
-	\end{tikzpicture}
-\end{figure}
+\input{chapters/initialization}
 
-Input URL (optional)
-
-Output: <nothing>
-
-\section{Image processing}
+\input{chapters/image_processing}
