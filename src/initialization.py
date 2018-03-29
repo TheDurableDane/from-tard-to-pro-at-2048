@@ -40,11 +40,10 @@ def center_game_on_screen():
 def locate_screen_content():
     screen_content = pd.DataFrame(data=[],
                                   columns=['row', 'column', 'height', 'width', 'x_center', 'y_center'],
-                                  index=['board', 'new game', 'score', 'best'])
+                                  index=['board', 'new game', 'score_best'])
     template_paths = ['data/game_board.png',
                       'data/new_game_button.png',
-                      'data/score.png',
-                      'data/best.png']
+                      'data/score_best.png']
     # we should consider moving these paths into a utils file together
     # with the _abs_path function...
     template_paths = map(_abs_path, template_paths)  # fix for the S Bag!

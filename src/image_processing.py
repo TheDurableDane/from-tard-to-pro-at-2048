@@ -2,7 +2,7 @@ import pyautogui as pag
 import numpy as np
 from skimage.color import rgb2gray
 from skimage.feature import match_template
-from skimage.io import imread
+from skimage.io import imread, imsave
 
 
 def take_screenshot():
@@ -14,6 +14,10 @@ def take_screenshot():
     img_gray = rgb2gray(img_orig)
 
     return img_gray
+
+
+def save_image(filename, img):
+    imsave(filename, img)
 
 
 def locate_image_on_screen(image_path):
