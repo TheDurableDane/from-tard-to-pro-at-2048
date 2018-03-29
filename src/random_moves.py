@@ -27,7 +27,7 @@ def play_randomly():
     while True:
         make_random_move()
 
-        if game_over():
+        if game_over(screen_content.loc['board', :]):
             save_results()
             init.restart_game(screen_content.loc['new game', 'x_center'],
                               screen_content.loc['new game', 'y_center'])
