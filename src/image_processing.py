@@ -76,8 +76,15 @@ def reCOCKnize_numbers():
 def game_over():
     """
     Return True if game over. Return False otherwise.
+    The hardcoded threshold is not ideal, but it works for now.
     """
-    pass
+    template = imread('data/game_over.png', as_grey=True)
+    screen_gray = take_screenshot()
+    match_result = match_template(screen_gray, template)
+    if np.amax(match_result > 0.9):
+        return True
+    else:
+        return False
 
 
 if __name__ == '__main__':
