@@ -22,16 +22,12 @@ def save_results(screen_content):
     """
     directory = 'results'
     timestamp = str(datetime.datetime.now()).replace('-', '').replace(':', '').replace(' ', '').replace('.', '')
-    filename_board = '{0}_random_board.png'.format(timestamp)
-    filename_score = '{0}_random_score.png'.format(timestamp)
+    filename_board = '{0}_random_result.png'.format(timestamp)
 
     screen = take_screenshot()
-    save_image(os.path.join(directory, filename_board),
-               screen[screen_content.loc['board', 'row']:screen_content.loc['board', 'row'] + screen_content.loc['board', 'height'],
-                      screen_content.loc['board', 'column']:screen_content.loc['board', 'column'] + screen_content.loc['board', 'width']])
-    save_image(os.path.join(directory, filename_score),
-               screen[screen_content.loc['score_best', 'row']:screen_content.loc['score_best', 'row'] + screen_content.loc['score_best', 'height'],
-                      screen_content.loc['score_best', 'column']:screen_content.loc['score_best', 'column'] + screen_content.loc['score_best', 'width']])
+    screen_cropped = screen[screen_content.loc['score_best', 'row']:screen_content.loc['board', 'row'] + screen_content.loc['board', 'height'],
+                            screen_content.loc['board', 'column']:screen_content.loc['board', 'column'] + screen_content.loc['board', 'width']]
+    save_image(os.path.join(directory, filename_board), screen_cropped)
 
 
 def play_randomly():
