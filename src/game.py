@@ -68,12 +68,11 @@ def print_board(board):
 def spawn_piece(board):
     piece = 2 if random.random() < 0.9 else 4
     rows, cols = empty_fields(board)
-    idx = random.randint(0, len(rows))
-    print(idx)
+    idx = random.randint(0, len(rows) - 1)
     i, j = rows[idx], cols[idx]
-    board[i,j] = piece
-    return board
+    board[i, j] = piece
 
+    return board
 
 
 def execute_move(board, move):
