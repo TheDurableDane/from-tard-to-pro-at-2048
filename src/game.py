@@ -77,17 +77,20 @@ def spawn_piece(board):
 
 
 def execute_move(board, move):
-#    if move == 'right:
-#        board = move_right(board)
-#    elif:
-#        pass
-#    .
-#    .
-#    .
-#    board = spawn_piece(board)
-#    
-#    return board
-    pass
+    if move == 'right:
+        board = move_right(board)
+    elif move == 'left':
+        board = move_left(board)
+    elif move == 'up':
+        board = move_up(board)
+    elif move == 'down':
+        board = move_down(board)
+    else:
+        raise Exception('Wrong input, nigga!')
+
+    board = spawn_piece(board)
+
+    return board
 
 
 def new_board():
