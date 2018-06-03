@@ -5,12 +5,14 @@ from game import spawn_piece, pair_pieces
 
 
 def test_spawn_piece():
+    np.random.seed(11)
     board = np.zeros((4, 4), dtype=int)
 
     for i in range(4):
         spawn_piece(board)
 
     assert np.sum(board == 0) == 12
+
 
 def test_pair_pieces():
     lsts = [[2, 4, 2, 4],
