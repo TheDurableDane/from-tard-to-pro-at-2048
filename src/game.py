@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 # encoding: utf-8
 import random
 import numpy as np
@@ -92,35 +93,16 @@ def new_board():
     return board
 
 
-def test_spawn_piece():
-    board = np.zeros((4,4), dtype=int)
-    print_board(board)
-    for i in range(4):
-        spawn_piece(board)
-    print_board(board)
-
-def test_pair_pieces():
-    lst = [2, 4, 2, 4]
-    print(lst)
-    print(pair_pieces(lst))
-
-
 if __name__ == '__main__':
-#    execute_move()
-    # pass
-    # parser = argparse.ArgumentParser(description='Mad execution of 2048 move.')
-    # parser.add_argument('-b','--board',
-    #                     type=int,
-    #                     help='4x4 Numpy array containing the board',
-    #                     required=True)
-    # parser.add_argument('-m','--move',
-    #                     type=str,
-    #                     help='The move you want to make: left, right, up, or down',
-    #                     required=True)
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser(description='Mad execution of 2048 move.')
+    parser.add_argument('-b','--board',
+                        type=int,
+                        help='4x4 Numpy array containing the board',
+                        required=True)
+    parser.add_argument('-m','--move',
+                        type=str,
+                        help='The move you want to make: left, right, up, or down',
+                        required=True)
+    args = parser.parse_args()
 
-    test_pair_pieces()
-
-    # execute_move(args.board, args.move)
-
-    # test_spawn_piece()
+    execute_move(args.board, args.move)
