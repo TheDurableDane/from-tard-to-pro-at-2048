@@ -69,6 +69,7 @@ def spawn_piece(board):
     piece = 2 if random.random() < 0.9 else 4
     rows, cols = empty_fields(board)
     idx = random.randint(0, len(rows))
+    print(idx)
     i, j = rows[idx], cols[idx]
     board[i,j] = piece
     return board
@@ -76,7 +77,7 @@ def spawn_piece(board):
 
 
 def execute_move(board, move):
-    if move == 'right:
+    if move == 'right':
         board = move_right(board)
     elif move == 'left':
         board = move_left(board)
@@ -93,7 +94,7 @@ def execute_move(board, move):
 
 
 def new_board():
-    board = np.zeros((4,4))
+    board = np.zeros((4,4), dtype=int)
     for i in range(2):
         spawn_piece(board)
     return board
@@ -107,6 +108,7 @@ def parse_input(key):
 
 def input_loop():
     board = new_board()
+    print_board(board)
     while True:
         key = input("Up/down/left/right...")
         board = execute_move(board, key)
@@ -115,15 +117,16 @@ def input_loop():
 
 
 if __name__ == '__main__':
-    parser = argparse.ArgumentParser(description='Mad execution of 2048 move.')
-    parser.add_argument('-b','--board',
-                        type=int,
-                        help='4x4 Numpy array containing the board',
-                        required=True)
-    parser.add_argument('-m','--move',
-                        type=str,
-                        help='The move you want to make: left, right, up, or down',
-                        required=True)
-    args = parser.parse_args()
+    input_loop()
+    # parser = argparse.ArgumentParser(description='Mad execution of 2048 move.')
+    # parser.add_argument('-b','--board',
+    #                     type=int,
+    #                     help='4x4 Numpy array containing the board',
+    #                     required=True)
+    # parser.add_argument('-m','--move',
+    #                     type=str,
+    #                     help='The move you want to make: left, right, up, or down',
+    #                     required=True)
+    # args = parser.parse_args()
 
-    execute_move(args.board, args.move)
+    # execute_move(args.board, args.move)
