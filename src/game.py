@@ -71,23 +71,21 @@ def spawn_piece(board):
     idx = random.randint(0, len(rows))
     i, j = rows[idx], cols[idx]
     board[i,j] = piece
-
     return board
 
 
 
-def execute_move(board, move):
-#    if move == 'right:
-#        board = move_right(board)
-#    elif:
-#        pass
-#    .
-#    .
-#    .
-#    board = spawn_piece(board)
-#    
-#    return board
-    pass
+def execute_move(board, key):
+    # if key == 'right:
+    #     board = move_right(board)
+    # elif key == "left":
+    #     board = move_left(board)
+    # elif key == "up":
+    #     board = move_up(board)
+    # elif key == "down":
+    #     board = move_down(board)
+    
+    # print_board(board)
 
 
 def new_board():
@@ -96,6 +94,21 @@ def new_board():
         spawn_piece(board)
     return board
 
+
+def parse_input(key):
+    if key == "left":
+        return move_left
+
+
+
+def input_loop():
+    board = new_board()
+    while True:
+        key = input("Up/down/left/right...")
+        board = execute_move(board, key)
+        print_board(board)
+
+        
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Mad execution of 2048 move.')
