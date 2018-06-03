@@ -26,4 +26,3 @@ def test_pair_pieces():
     for lst, res in zip(lsts, ress):
         lst = pair_pieces(lst)
         assert lst == res
-

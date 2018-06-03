@@ -5,10 +5,12 @@ import numpy as np
 import argparse
 
 
-# pairs pieces in a list of 4 elements (row or column in board)
-# returns new list with all zeros displaced to the right
-# e.g. [2 0 2 4] -> [4 4 0 0]
 def pair_pieces(lst):
+    """
+     pairs pieces in a list of 4 elements (row or column in board)
+     returns new list with all zeros displaced to the right
+     e.g. [2 0 2 4] -> [4 4 0 0]
+    """
     pieces = [x for x in lst if x > 0]
     pieces = pieces + [0] # so that last piece can always be paired
     m = len(pieces)
@@ -66,8 +68,10 @@ def print_board(board):
 def spawn_piece(board):
     piece = 2 if random.random() < 0.9 else 4
     rows, cols = empty_fields(board)
-    i, j = [np.random.choice(elem, 1)[0] for elem in (rows, cols)]
+    idx = random.randint(0, len(rows))
+    i, j = rows[idx], cols[idx]
     board[i,j] = piece
+
     return board
 
 
