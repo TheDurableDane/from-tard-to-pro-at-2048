@@ -75,17 +75,21 @@ def spawn_piece(board):
 
 
 
-def execute_move(board, key):
-    # if key == 'right:
-    #     board = move_right(board)
-    # elif key == "left":
-    #     board = move_left(board)
-    # elif key == "up":
-    #     board = move_up(board)
-    # elif key == "down":
-    #     board = move_down(board)
-    
-    # print_board(board)
+def execute_move(board, move):
+    if move == 'right:
+        board = move_right(board)
+    elif move == 'left':
+        board = move_left(board)
+    elif move == 'up':
+        board = move_up(board)
+    elif move == 'down':
+        board = move_down(board)
+    else:
+        raise Exception('Wrong input, nigga!')
+
+    board = spawn_piece(board)
+
+    return board
 
 
 def new_board():
@@ -108,7 +112,7 @@ def input_loop():
         board = execute_move(board, key)
         print_board(board)
 
-        
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Mad execution of 2048 move.')
