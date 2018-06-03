@@ -72,9 +72,6 @@ def test_spawn_piece():
 
 
 if __name__ == '__main__':
-#    execute_move()
-    test_spawn_piece()
-    pass
     parser = argparse.ArgumentParser(description='Mad execution of 2048 move.')
     parser.add_argument('-b','--board',
                         type=int,
@@ -87,3 +84,5 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     execute_move(args.board, args.move)
+
+    test_spawn_piece()
