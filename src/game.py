@@ -63,14 +63,6 @@ def new_board():
     return board
 
 
-def test_spawn_piece():
-    board = np.zeros((4,4), dtype=int)
-    print_board(board)
-    for i in range(4):
-        spawn_piece(board)
-    print_board(board)
-
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Mad execution of 2048 move.')
     parser.add_argument('-b','--board',
@@ -84,5 +76,3 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     execute_move(args.board, args.move)
-
-    test_spawn_piece()
