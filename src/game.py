@@ -100,11 +100,6 @@ def new_board():
     return board
 
 
-def parse_input(key):
-    if key == "left":
-        return move_left
-
-
 def input_loop():
     board = new_board()
     print_board(board)
