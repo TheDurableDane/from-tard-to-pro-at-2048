@@ -12,7 +12,7 @@ def pair_pieces(lst):
      e.g. [2 0 2 4] -> [4 4 0 0]
     """
     pieces = [x for x in lst if x > 0]
-    pieces = pieces + [0] # so that last piece can always be paired
+    pieces = pieces + [0]  # so that last piece can always be paired
     m = len(pieces)
     new_lst = []
     i = 0
@@ -31,29 +31,29 @@ def pair_pieces(lst):
 
 def move_right(board):
     for i in range(4):
-        lst = pair_pieces(board[i,:][::-1])
-        board[i,:] = lst[::-1]
+        lst = pair_pieces(board[i, :][::-1])
+        board[i, :] = lst[::-1]
     return board
 
 
 def move_left(board):
     for i in range(4):
-        lst = pair_pieces(board[i,:])
-        board[i,:] = lst
+        lst = pair_pieces(board[i, :])
+        board[i, :] = lst
     return board
 
 
 def move_up(board):
     for i in range(4):
-        lst = pair_pieces(board[:,i])
-        board[:,i] = lst
+        lst = pair_pieces(board[:, i])
+        board[:, i] = lst
     return board
 
 
 def move_down(board):
     for i in range(4):
-        lst = pair_pieces(board[:,i][::-1])
-        board[:,i] = lst[::-1]
+        lst = pair_pieces(board[:, i][::-1])
+        board[:, i] = lst[::-1]
     return board
 
 
@@ -85,7 +85,8 @@ def execute_move(board, move):
     elif move == 'down':
         board = move_down(board)
     else:
-        raise Exception('Wrong input, nigga!')
+        print('Wrong input, nigga!')
+        return board
 
     board = spawn_piece(board)
 
@@ -93,7 +94,7 @@ def execute_move(board, move):
 
 
 def new_board():
-    board = np.zeros((4,4), dtype=int)
+    board = np.zeros((4, 4), dtype=int)
     for i in range(2):
         spawn_piece(board)
     return board
@@ -104,24 +105,22 @@ def parse_input(key):
         return move_left
 
 
-
 def input_loop():
     board = new_board()
     print_board(board)
     while True:
-        key = input("Up/down/left/right...")
+        key = input("up/down/left/right...")
         board = execute_move(board, key)
         print_board(board)
 
 
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Mad execution of 2048 move.')
-    parser.add_argument('-b','--board',
+    parser.add_argument('-b', '--board',
                         type=int,
                         help='4x4 Numpy array containing the board',
                         required=True)
-    parser.add_argument('-m','--move',
+    parser.add_argument('-m', '--move',
                         type=str,
                         help='The move you want to make: left, right, up, or down',
                         required=True)
