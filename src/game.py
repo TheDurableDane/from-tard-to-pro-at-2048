@@ -2,7 +2,12 @@
 # encoding: utf-8
 import random
 import numpy as np
-import argparse
+
+
+class Game:
+    def __init__(self):
+        self.board = new_board()
+        self.score = 0
 
 
 def pair_pieces(lst):
@@ -55,6 +60,7 @@ def move_down(board):
         lst = pair_pieces(board[:, i][::-1])
         board[:, i] = lst[::-1]
     return board
+
 
 
 def empty_fields(board):
