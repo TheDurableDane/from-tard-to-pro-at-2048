@@ -4,29 +4,20 @@ from game import *
 import tkinter as tk
 
 
-WIDTH = 400
-HEIGHT = 400
+my_game = Game()
 
 
-class GameGUI:
+root = tk.Tk()
+root.geometry("400x400")
 
-    def __init__(self, master):
-        self.master = master
 
-    def build_gui(self):
-        for i in range(4):
-            # _columns = []
-            for j in range(4):
-                tk.Label(master, text="lol").grid(row=i, column=j)
-            #     cell = Frame(background, bg="#%deee%df" % (i, j), 
-            #                  width=WIDTH/4, height=HEIGHT/4)
-            #     cell.grid(row=i, column=j)
-            #     _columns.append(Frame(background, bg="#ffffff", width=WIDTH/4, 
-            #                                       height=HEIGHT/4))
-            # cells.append(_columns)
-        self.cells = cells
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    gg = GameGUI(root)
-    root.mainloop()
+gametext = tk.Label(root,   text=repr(my_game),
+                            font=("Consolas", 20))
+gametext.pack(fill="both", expand=True)
+
+
+
+
+
+root.mainloop()
