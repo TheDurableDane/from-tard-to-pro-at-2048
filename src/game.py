@@ -9,6 +9,18 @@ class Game:
         self.board = new_board()
         self.score = 0
 
+    def __repr__(self):
+        board_str = ''
+        N_max = len(str(np.max(self.board)))
+        rows, cols = 4, 4
+        for r in range(rows):
+            for c in range(cols):
+                board_str += '{message: >{fill}} '.format(message=self.board[r, c], fill=N_max)
+            board_str += '\n'
+        point_str = str(self.score)
+        game_str = "{0}Points: {1}\n".format(board_str, point_str)
+        return game_str
+
 
 def pair_pieces(lst):
     """
@@ -124,7 +136,7 @@ def new_board():
 
 def input_loop():
     game = Game()
-    print_board(game.board)
+    print(game)
     while True:
         key = input("u/d/l/r? ")
         execute_move(game, key)
