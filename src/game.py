@@ -62,7 +62,6 @@ def move_down(board):
     return board
 
 
-
 def empty_fields(board):
     return np.where(board == 0)
 
@@ -79,6 +78,15 @@ def spawn_piece(board):
     board[i, j] = piece
 
     return board
+
+
+def get_points(first_board, second_board):
+    points = 0
+    nums, cts = np.unique(first_board, return_counts=True)
+    for num, ct in zip(nums, cts):
+        N = sum(second_board == num)
+        points += (N-ct)*num
+    return points
 
 
 def execute_move(board, move):
