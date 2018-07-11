@@ -8,6 +8,7 @@ class Game:
     def __init__(self):
         self.board = new_board()
         self.score = 0
+        self.game_over = False
 
     def __repr__(self):
         board_str = ''
@@ -104,6 +105,16 @@ def get_points(first_board, second_board):
     return points
 
 
+def is_game_over(game):
+    moves = (move_left, move_right, move_up, move_down)
+    for move in moves:
+        board_copy = game.board.copy()
+        board_copy = move(board_copy)
+        if not np.array_equal(game.board, board_copy):
+            return False
+    return True
+
+
 def execute_move(game, move):
     initial_board = game.board.copy()
     board = game.board
@@ -138,6 +149,9 @@ def input_loop():
     game = Game()
     print(game)
     while True:
+        if is_game_over(game):
+            print("Game over!... you noob!")
+            return game
         key = input("u/d/l/r? ")
         execute_move(game, key)
         print(game)
