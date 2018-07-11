@@ -76,6 +76,7 @@ def spawn_piece(board):
 
 
 def execute_move(board, move):
+    initial_board = board.copy()
     if move == 'right':
         board = move_right(board)
     elif move == 'left':
@@ -86,9 +87,9 @@ def execute_move(board, move):
         board = move_down(board)
     else:
         print('Wrong input, nigga!')
-        return board
 
-    board = spawn_piece(board)
+    if not np.array_equal(initial_board, board):
+        board = spawn_piece(board)
 
     return board
 
