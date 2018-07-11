@@ -140,8 +140,7 @@ def input_loop():
     while True:
         key = input("u/d/l/r? ")
         execute_move(game, key)
-        print_board(game.board)
-        print(game.score)
+        print(game)
 
 
 if __name__ == '__main__':
