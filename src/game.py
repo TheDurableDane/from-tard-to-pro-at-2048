@@ -9,6 +9,12 @@ class Game:
         self.board = new_board()
         self.score = 0
 
+    def __repr__(self):
+        board_str = str(self.board)
+        point_str = str(self.score)
+        game_str = "{0}\nPoints: {1}\n".format(board_str, point_str)
+        return game_str
+
 
 def pair_pieces(lst):
     """
@@ -109,11 +115,11 @@ def new_board():
 
 def input_loop():
     game = Game()
-    print_board(game.board)
+    print(game)
     while True:
         key = input("u/d/l/r? ")
         execute_move(game, key)
-        print_board(game.board)
+        print(game)
 
 
 if __name__ == '__main__':
