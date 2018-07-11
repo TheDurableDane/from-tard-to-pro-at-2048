@@ -68,7 +68,7 @@ def print_board(board):
 def spawn_piece(board):
     piece = 2 if random.random() < 0.9 else 4
     rows, cols = empty_fields(board)
-    idx = random.randint(0, len(rows) - 1)
+    idx = random.randint(0, len(rows))
     i, j = rows[idx], cols[idx]
     board[i, j] = piece
 
