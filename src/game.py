@@ -62,7 +62,6 @@ def move_down(board):
     return board
 
 
-
 def empty_fields(board):
     return np.where(board == 0)
 
@@ -81,8 +80,9 @@ def spawn_piece(board):
     return board
 
 
-def execute_move(board, move):
-    initial_board = board.copy()
+def execute_move(game, move):
+    initial_board = game.board.copy()
+    board = game.board
     if move == 'r':
         board = move_right(board)
     elif move == 'l':
@@ -108,12 +108,12 @@ def new_board():
 
 
 def input_loop():
-    board = new_board()
-    print_board(board)
+    game = Game()
+    print_board(game.board)
     while True:
         key = input("u/d/l/r? ")
-        board = execute_move(board, key)
-        print_board(board)
+        execute_move(game, key)
+        print_board(game.board)
 
 
 if __name__ == '__main__':
