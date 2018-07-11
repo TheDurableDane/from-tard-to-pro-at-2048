@@ -82,15 +82,19 @@ def spawn_piece(board):
 
 def get_points(first_board, second_board):
     points = 0
-    nums, cts = np.unique(first_board, return_counts=True)
-    for num, ct in zip(nums, cts):
-        N = sum(second_board == num)
-        points += (N-ct)*num
+    nums2, cts2 = np.unique(second_board, return_counts=True)
+    for num2, ct2 in zip(nums2, cts2):
+        if num2 in first_board:
+            N = ct2 - np.sum(first_board == num2)
+            if N > 0: points += N*num2
+        else:
+            points += num2
     return points
 
 
-def execute_move(board, move):
-    initial_board = board.copy()
+def execute_move(game, move):
+    initial_board = game.board.copy()
+    board = game.board
     if move == 'r':
         board = move_right(board)
     elif move == 'l':
@@ -101,6 +105,9 @@ def execute_move(board, move):
         board = move_down(board)
     else:
         print('Wrong input, nigga!')
+
+    # update score
+    game.score += get_points(initial_board, board)
 
     if not np.array_equal(initial_board, board):
         board = spawn_piece(board)
@@ -116,12 +123,13 @@ def new_board():
 
 
 def input_loop():
-    board = new_board()
-    print_board(board)
+    game = Game()
+    print_board(game.board)
     while True:
         key = input("u/d/l/r? ")
-        board = execute_move(board, key)
-        print_board(board)
+        execute_move(game, key)
+        print_board(game.board)
+        print(game.score)
 
 
 if __name__ == '__main__':
