@@ -77,13 +77,13 @@ def spawn_piece(board):
 
 def execute_move(board, move):
     initial_board = board.copy()
-    if move == 'right':
+    if move == 'r':
         board = move_right(board)
-    elif move == 'left':
+    elif move == 'l':
         board = move_left(board)
-    elif move == 'up':
+    elif move == 'u':
         board = move_up(board)
-    elif move == 'down':
+    elif move == 'd':
         board = move_down(board)
     else:
         print('Wrong input, nigga!')
@@ -105,7 +105,7 @@ def input_loop():
     board = new_board()
     print_board(board)
     while True:
-        key = input("up/down/left/right...")
+        key = input("u/d/l/r? ")
         board = execute_move(board, key)
         print_board(board)
 
