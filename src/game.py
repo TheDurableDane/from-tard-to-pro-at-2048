@@ -8,7 +8,7 @@ class Game:
     def __init__(self):
         self.board = new_board()
         self.score = 0
-        self.game_over = False
+        self.num_moves = 0
 
     def __repr__(self):
         board_str = ''
@@ -120,12 +120,16 @@ def execute_move(game, move):
     board = game.board
     if move == 'r':
         board = move_right(board)
+        game.num_moves += 1
     elif move == 'l':
         board = move_left(board)
+        game.num_moves += 1
     elif move == 'u':
         board = move_up(board)
+        game.num_moves += 1
     elif move == 'd':
         board = move_down(board)
+        game.num_moves += 1    
     else:
         print('Wrong input, nigga!')
 
