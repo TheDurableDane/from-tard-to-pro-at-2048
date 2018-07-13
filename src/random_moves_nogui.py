@@ -10,7 +10,7 @@ import pandas as pd
 
 def write_results(scores, max_tiles):
     timestamp = str(datetime.datetime.now()).replace('-', '').replace(':', '').replace(' ', '').replace('.', '')
-    filename = "random_moves_results_{0}.csv".format(timestamp)
+    filename = "results/random_moves_results_{0}.csv".format(timestamp)
     data = dict(score=scores, max_tile=max_tiles)
     df = pd.DataFrame(data=data)
     df.to_csv(filename, index=False)
