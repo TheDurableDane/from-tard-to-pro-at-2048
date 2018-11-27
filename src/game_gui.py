@@ -47,4 +47,4 @@ root.bind("<Key>", on_key_down)
 
 while True:
     root.update()
-    execute_move(my_game, "u")
+    # execute_move(my_game, "u")
