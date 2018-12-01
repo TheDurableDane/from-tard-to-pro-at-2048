@@ -41,7 +41,12 @@ while not exit_game:
     for i in range(this_game.board.size):
         row = int(np.floor(i/4))
         col = int(i%4)
-        text = font.render(str(this_game.board[row, col]), True, black)
+        cell_number = this_game.board[row, col]
+        if cell_number == 0:
+            color = (0, 0, 0, 0)
+        else:
+            color = (int(np.log2(cell_number)/17*255), 0, 0, 0)
+        text = font.render(str(cell_number), True, color)
         game_screen.blit(text, (col*fontsize*2, row*fontsize*2))
     pg.display.update()
 
