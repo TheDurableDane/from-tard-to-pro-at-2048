@@ -5,6 +5,7 @@ import game
 import pygame as pg
 import sys
 import numpy as np
+from matplotlib import colors as mcolors
 
 
 this_game = game.Game()
@@ -20,6 +21,8 @@ fontsize = 50
 font = pg.font.SysFont('Arial', fontsize)
 white = (255, 255, 255)
 black = (0, 0, 0)
+color_names = np.random.choice(list(mcolors.CSS4_COLORS.keys()), size=17, replace=False)
+colors = [mcolors.CSS4_COLORS[name] for name in color_names]
 
 # Start game loop
 exit_game = False
