@@ -8,10 +8,8 @@ import numpy as np
 from matplotlib import colors as mcolors
 
 
-this_game = game.Game()
-print(this_game)
-
 # Initialization
+this_game = game.Game()
 pg.init()
 game_w = 400
 game_h = 400
@@ -21,8 +19,10 @@ fontsize = 50
 font = pg.font.SysFont('Arial', fontsize)
 white = (255, 255, 255)
 black = (0, 0, 0)
+np.random.seed(1331)
 color_names = np.random.choice(list(mcolors.CSS4_COLORS.keys()), size=17, replace=False)
-colors = [mcolors.CSS4_COLORS[name] for name in color_names]
+# Sorry for the nested list/tuple comprehension
+colors = [tuple(int(200*x) for x in mcolors.to_rgba(mcolors.CSS4_COLORS[name])) for name in color_names]
 
 # Start game loop
 exit_game = False
@@ -46,10 +46,11 @@ while not exit_game:
         col = int(i%4)
         cell_number = this_game.board[row, col]
         if cell_number == 0:
-            color = (0, 0, 0, 0)
+            color_index = 0
         else:
-            color = (int(np.log2(cell_number)/17*255), 0, 0, 0)
-        text = font.render(str(cell_number), True, color)
+            color_index = int(np.log2(cell_number))
+
+        text = font.render(str(cell_number), True, colors[color_index])
         game_screen.blit(text, (col*fontsize*2, row*fontsize*2))
     pg.display.update()
 
