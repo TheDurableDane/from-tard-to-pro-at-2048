@@ -129,7 +129,7 @@ def execute_move(game, move):
         game.num_moves += 1
     elif move == 'd':
         board = move_down(board)
-        game.num_moves += 1    
+        game.num_moves += 1
     else:
         print('Wrong input, nigga!')
 

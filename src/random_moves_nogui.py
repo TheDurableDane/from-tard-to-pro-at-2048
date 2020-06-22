@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-
-from game import *
+from game import Game, is_game_over, execute_move
 from random import randint
 import numpy as np
 import datetime
