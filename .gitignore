@@ -9,6 +9,7 @@
 *.toc
 *.json
 .vscode
+*.csv
 
 # Directories
 __pycache__
