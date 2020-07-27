@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # encoding: utf-8
-from game import *
+from game_control import *
 import tkinter as tk
 
 _translator = {"Left":"l", "Right":"r", "Up":"u", "Down":"d"}
