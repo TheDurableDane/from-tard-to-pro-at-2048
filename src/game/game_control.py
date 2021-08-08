@@ -1,16 +1,22 @@
 #!/usr/bin/env python
 # encoding: utf-8
 import random
+import time
 import numpy as np
 
 
 class Game:
     def __init__(self):
-        self.board = new_board()
+        self.board = self.get_empty_board()
+        self.spawn_piece()
+        self.spawn_piece()
         self.score = 0
         self.num_moves = 0
 
+
     def __repr__(self):
+        if self.board is None:
+            return 'Board is none.'
         board_str = ''
         N_max = len(str(np.max(self.board)))
         rows, cols = 4, 4
@@ -19,147 +25,171 @@ class Game:
                 board_str += '{message: >{fill}} '.format(message=self.board[r, c], fill=N_max)
             board_str += '\n'
         point_str = str(self.score)
-        game_str = "{0}Points: {1}\n".format(board_str, point_str)
+        game_str = f"{board_str}Points: {point_str}\n"
         return game_str
 
 
-def pair_pieces(lst):
-    """
-     pairs pieces in a list of 4 elements (row or column in board)
-     returns new list with all zeros displaced to the right
-     e.g. [2 0 2 4] -> [4 4 0 0]
-    """
-    pieces = [x for x in lst if x > 0]
-    pieces = pieces + [0]  # so that last piece can always be paired
-    m = len(pieces)
-    new_lst = []
-    i = 0
-    while i < m-1:
-        first, second = pieces[i], pieces[i+1]
-        if first == second:
-            new_lst.append(first + second)
-            del pieces[i:i+2]
-            m -= 2
-        else:
-            new_lst.append(first)
-            i += 1
-    new_lst = new_lst + [0]*(4-len(new_lst))
-    return new_lst
+    def get_empty_board(self):
+        board = np.zeros((4, 4), dtype=int)
+
+        return board
 
 
-def move_right(board):
-    for i in range(4):
-        lst = pair_pieces(board[i, :][::-1])
-        board[i, :] = lst[::-1]
-    return board
+    def spawn_piece(self):
+        piece = 2 if random.random() < 0.9 else 4
+        rows, cols = self.empty_fields()
+        idx = random.randint(0, len(rows)-1)
+        i, j = rows[idx], cols[idx]
+        self.board[i, j] = piece
+
+        return self.board
 
 
-def move_left(board):
-    for i in range(4):
-        lst = pair_pieces(board[i, :])
-        board[i, :] = lst
-    return board
+    def empty_fields(self):
+        return np.where(self.board == 0)
 
 
-def move_up(board):
-    for i in range(4):
-        lst = pair_pieces(board[:, i])
-        board[:, i] = lst
-    return board
-
-
-def move_down(board):
-    for i in range(4):
-        lst = pair_pieces(board[:, i][::-1])
-        board[:, i] = lst[::-1]
-    return board
-
-
-def empty_fields(board):
-    return np.where(board == 0)
-
-
-def print_board(board):
-    print(board)
-
-
-def spawn_piece(board):
-    piece = 2 if random.random() < 0.9 else 4
-    rows, cols = empty_fields(board)
-    idx = random.randint(0, len(rows)-1)
-    i, j = rows[idx], cols[idx]
-    board[i, j] = piece
-
-    return board
-
-
-def get_points(first_board, second_board):
-    points = 0
-    nums2, cts2 = np.unique(second_board, return_counts=True)
-    for num2, ct2 in zip(nums2, cts2):
-        if num2 in first_board:
-            N = ct2 - np.sum(first_board == num2)
-            if N > 0: points += N*num2
-        else:
-            points += num2
-    return points
-
-
-def is_game_over(game):
-    moves = (move_left, move_right, move_up, move_down)
-    for move in moves:
-        board_copy = game.board.copy()
-        board_copy = move(board_copy)
-        if not np.array_equal(game.board, board_copy):
+    def is_game_over(self):
+        if (self.board == 0).any():
             return False
-    return True
+
+        current_board = self.board.copy()
+
+        self.move_right()
+        right_board = self.board.copy()
+        self.board = current_board.copy()
+
+        self.move_up()
+        up_board = self.board.copy()
+        self.board = current_board.copy()
+
+        self.move_left()
+        left_board = self.board.copy()
+        self.board = current_board.copy()
+
+        self.move_down()
+        down_board = self.board.copy()
+        self.board = current_board.copy()
+
+        board_unchanged = (
+            np.array_equal(current_board, right_board) and
+            np.array_equal(current_board, up_board) and
+            np.array_equal(current_board, left_board) and
+            np.array_equal(current_board, down_board)
+        )
+        if board_unchanged:
+            return True
+        else:
+            return False
 
 
-def execute_move(game, move):
-    initial_board = game.board.copy()
-    board = game.board
-    if move == 'r':
-        board = move_right(board)
-        game.num_moves += 1
-    elif move == 'l':
-        board = move_left(board)
-        game.num_moves += 1
-    elif move == 'u':
-        board = move_up(board)
-        game.num_moves += 1
-    elif move == 'd':
-        board = move_down(board)
-        game.num_moves += 1
-    else:
-        print('Wrong input, nigga!')
+    def pair_pieces(self, lst):
+        """
+        Pairs pieces in a list of 4 elements (row or column in board)
+        returns new list with all zeros displaced to the right
+        e.g. [2 0 2 4] -> [4 4 0 0]
+        """
+        pieces = [x for x in lst if x > 0]
+        pieces = pieces + [0]  # so that last piece can always be paired
+        new_lst = []
 
-    # update score
-    game.score += get_points(initial_board, board)
+        while len(pieces) > 1:
+            first, second = pieces[0], pieces[1]
+            if first == second:
+                new_lst.append(first + second)
+                del pieces[0:2]
+            else:
+                new_lst.append(first)
+                del pieces[0]
 
-    if not np.array_equal(initial_board, board):
-        board = spawn_piece(board)
+        # Append zeros until column/row is full
+        new_lst = (new_lst + [0]*4)[:4]
 
-    return board
+        return new_lst
 
 
-def new_board():
-    board = np.zeros((4, 4), dtype=int)
-    for i in range(2):
-        spawn_piece(board)
-    return board
+    def move_right(self):
+        for i in range(4):
+            lst = self.pair_pieces(self.board[i, :][::-1])
+            self.board[i, :] = lst[::-1]
 
 
-def input_loop():
+    def move_left(self):
+        for i in range(4):
+            lst = self.pair_pieces(self.board[i, :])
+            self.board[i, :] = lst
+
+
+    def move_up(self):
+        for i in range(4):
+            lst = self.pair_pieces(self.board[:, i])
+            self.board[:, i] = lst
+
+
+    def move_down(self):
+        for i in range(4):
+            lst = self.pair_pieces(self.board[:, i][::-1])
+            self.board[:, i] = lst[::-1]
+
+
+    def update_score(self, previous_board):
+        points = 0
+        nums, cnts = np.unique(self.board, return_counts=True)
+        for num, cnt in zip(nums, cnts):
+            N = cnt - np.sum(previous_board == num)
+            if N > 0:
+                points += N*num
+
+        self.score += points
+
+
+    def execute_move(self, move):
+        previous_board = self.board.copy()
+        if move == 'r':
+            self.move_right()
+            self.num_moves += 1
+        elif move == 'l':
+            self.move_left()
+            self.num_moves += 1
+        elif move == 'u':
+            self.move_up()
+            self.num_moves += 1
+        elif move == 'd':
+            self.move_down()
+            self.num_moves += 1
+        else:
+            print('Wrong input, nigga!')
+
+        # update score
+        self.update_score(previous_board)
+
+        if not np.array_equal(previous_board, self.board):
+            self.spawn_piece()
+
+
+def play_game():
     game = Game()
-    print(game)
-    while True:
-        if is_game_over(game):
-            print("Game over!... you noob!")
-            return game
-        key = input("u/d/l/r? ")
-        execute_move(game, key)
+    while not game.is_game_over():
         print(game)
+        action = input('u/d/l/r? ')
+        game.execute_move(action)
+    print(game)
+    print('Game over!')
+    return game
+
+
+def play_random_game():
+    game = Game()
+    while not game.is_game_over():
+        print(game)
+        action = random.choice(['r', 'u', 'l', 'd'])
+        print(action)
+        game.execute_move(action)
+        time.sleep(1)
+    print(game)
+    print('Game over!')
+    return game
 
 
 if __name__ == '__main__':
-    input_loop()
+    play_game()
