@@ -17,7 +17,7 @@ from tf_agents.trajectories import time_step as ts
 class Game2048Env(py_environment.PyEnvironment):
     def __init__(self):
         self._action_spec = array_spec.BoundedArraySpec(
-            shape=(4,), dtype=np.int32, minimum=0, maximum=1, name='action')
+            shape=(), dtype=np.int32, minimum=0, maximum=3, name='action')
         self._observation_spec = array_spec.BoundedArraySpec(
             shape=(4, 4), dtype=np.int32, minimum=0, maximum=131072, name='observation')
 
@@ -55,19 +55,13 @@ class Game2048Env(py_environment.PyEnvironment):
             # The last action ended the episode. Ignore the current action and start a new episode.
             return self.reset()
 
-        # Possible moves
-        right = np.array([1, 0, 0, 0])
-        up = np.array([0, 1, 0, 0])
-        left = np.array([0, 0, 1, 0])
-        down = np.array([0, 0, 0, 1])
-
-        if np.array_equal(action, right):
+        if action == 0:
             self.execute_move('r')
-        elif np.array_equal(action, up):
+        elif action == 1:
             self.execute_move('u')
-        elif np.array_equal(action, left):
+        elif action == 2:
             self.execute_move('l')
-        elif np.array_equal(action, down):
+        elif action == 3:
             self.execute_move('d')
         else:
             raise ValueError(f'Invalid action: {action}')
@@ -219,5 +213,4 @@ class Game2048Env(py_environment.PyEnvironment):
 
 if __name__ == '__main__':
     environment = Game2048Env()
-    print(environment.board.dtype)
     utils.validate_py_environment(environment, episodes=5)
