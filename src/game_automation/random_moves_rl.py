@@ -1,6 +1,6 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-from game import game_control
+#!/usr/bin/env python
+from game import rl_environment
+from tf_agents.environments import utils
 from random import randint
 import numpy as np
 import datetime
@@ -19,16 +19,14 @@ def main():
     scores = []
     max_tiles = []
     moves = ['l', 'r', 'u', 'd']
-    number_of_games = 1000000
+    number_of_games = 10000
     write_results_to_file = True
 
     for game_number in range(number_of_games):
-        game = game_control.Game()
-        while not game.is_game_over():
-            move = moves[randint(0, len(moves)-1)]
-            game.execute_move(move)
-        scores.append(game.score)
-        max_tiles.append(np.max(game.board))
+        environment = rl_environment.Game2048Env()
+        utils.validate_py_environment(environment, episodes=1)
+        scores.append(environment.score)
+        max_tiles.append(np.max(environment.board))
         percentage = round(game_number/number_of_games*100)
         print("{0}% of {1} games completed.".format(percentage, number_of_games), end='\r', flush=True)
 
