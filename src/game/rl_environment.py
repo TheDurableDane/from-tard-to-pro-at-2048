@@ -13,7 +13,7 @@ class Game2048Env(py_environment.PyEnvironment):
         self._action_spec = array_spec.BoundedArraySpec(
             shape=(), dtype=np.int32, minimum=0, maximum=3, name='action')
         self._observation_spec = array_spec.BoundedArraySpec(
-            shape=(4, 4), dtype=np.int32, minimum=0, maximum=131072, name='observation')
+            shape=(16, ), dtype=np.int32, minimum=0, maximum=131072, name='observation')
 
         self.board = self.get_empty_board()
         self.spawn_piece()
@@ -23,14 +23,11 @@ class Game2048Env(py_environment.PyEnvironment):
 
         self._state = self.score
 
-
     def action_spec(self):
         return self._action_spec
 
-
     def observation_spec(self):
         return self._observation_spec
-
 
     def _reset(self):
         self.board = self.get_empty_board()
@@ -39,11 +36,10 @@ class Game2048Env(py_environment.PyEnvironment):
         self.score = 0
         self.num_moves = 0
 
-        return ts.restart(self.board)
-
+        return ts.restart(self.board.flatten())
 
     def _step(self, action):
-        """ action interpretation: [right, up, left, down], e.g. [0, 1, 0, 0] for up
+        """ action interpretation: 0: right, 1: up, 2: left, 3: down
         """
         if self.is_game_over():
             # The last action ended the episode. Ignore the current action and start a new episode.
@@ -62,16 +58,14 @@ class Game2048Env(py_environment.PyEnvironment):
 
         reward = self.score
         if self.is_game_over():
-            return ts.termination(self.board, reward)
+            return ts.termination(self.board.flatten(), reward)
         else:
-            return ts.transition(self.board, reward=reward, discount=1.0)
-
+            return ts.transition(self.board.flatten(), reward=reward, discount=1.0)
 
     def get_empty_board(self):
         board = np.zeros((4, 4), dtype=np.int32)
 
         return board
-
 
     def spawn_piece(self):
         piece = 2 if random.random() < 0.9 else 4
@@ -82,10 +76,8 @@ class Game2048Env(py_environment.PyEnvironment):
 
         return self.board
 
-
     def empty_fields(self):
         return np.where(self.board == 0)
-
 
     def is_game_over(self):
         if (self.board == 0).any():
@@ -120,7 +112,6 @@ class Game2048Env(py_environment.PyEnvironment):
         else:
             return False
 
-
     def pair_pieces(self, lst):
         """
         Pairs pieces in a list of 4 elements (row or column in board)
@@ -145,30 +136,25 @@ class Game2048Env(py_environment.PyEnvironment):
 
         return new_lst
 
-
     def move_right(self):
         for i in range(4):
             lst = self.pair_pieces(self.board[i, :][::-1])
             self.board[i, :] = lst[::-1]
-
 
     def move_left(self):
         for i in range(4):
             lst = self.pair_pieces(self.board[i, :])
             self.board[i, :] = lst
 
-
     def move_up(self):
         for i in range(4):
             lst = self.pair_pieces(self.board[:, i])
             self.board[:, i] = lst
 
-
     def move_down(self):
         for i in range(4):
             lst = self.pair_pieces(self.board[:, i][::-1])
             self.board[:, i] = lst[::-1]
-
 
     def update_score(self, previous_board):
         points = 0
@@ -179,7 +165,6 @@ class Game2048Env(py_environment.PyEnvironment):
                 points += N*num
 
         self.score += points
-
 
     def execute_move(self, move):
         previous_board = self.board.copy()

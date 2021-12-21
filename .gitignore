@@ -10,7 +10,12 @@
 *.json
 .vscode
 *.csv
+poetry.lock
 
 # Directories
 __pycache__
 src/legacy/results
+
+# Emacs
+*~
+*#

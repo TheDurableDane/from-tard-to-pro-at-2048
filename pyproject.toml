@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "from-tard-to-pro-at-2048"
+version = "0.1.0"
+description = ""
+authors = ["Thomas <thomaslolkschmidt@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "3.8"
+numpy = "1.*"
+pandas = "1.*"
+tensorflow = '2.7.0'
+tensorflow-probability = '0.14.0'
+tf-agents = '0.*'
+flake8 = "4.*"
+dm-reverb = '0.6.1'
+plotly = "^5.4.0"
+
+[tool.poetry.dev-dependencies]
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
